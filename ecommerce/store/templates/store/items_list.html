@@ -1,0 +1,35 @@
+{% extends 'store/_layout.html'%}
+{% load static %}
+{% block content %}
+<h2>Store</h2>
+
+    <div class="card-group">
+        {% for item in items %}
+        <div class="card">
+            <a href="{% url 'store:item_detail' item_id=item.id %}" style="text-decoration: none;">
+                <div>
+                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+                </div>
+                <div class="card-body" style="text-align: center;">
+                    <h5 class="card-title text-dark">{{ item.title }}</h5>
+                    {% if item.dicount_price %}
+                        <h5 style="color: black;"><s>${{ item.price }}</s></h5>
+                        <h5 class="card-text text-danger">New Price: ${{ item.dicount_price }}</h5>
+                    {% else %}
+                        <h5 style="color: black;">{{ item.price }}</h5>
+                    {% endif %}
+                </div>
+            </a>
+            <div class="card-button" style="text-align: center;">
+                <a><button data-item="{{item.id}}" data-action="add" class="btn btn-dark btn-block add-to-cart">Add to Cart</button></a>
+            </div>
+        </div>
+        {% if forloop.counter|divisibleby:4 and not forloop.last %}
+            </div>
+            <div class="card-group">
+        {% endif %} 
+        {% endfor %}
+    </div>
+  
+
+{% endblock %}

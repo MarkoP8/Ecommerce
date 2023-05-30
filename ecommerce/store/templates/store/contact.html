@@ -1,0 +1,43 @@
+{% extends 'store/_layout.html' %}
+{% load static %}
+{% block content %}
+<h2>CONTACT US</h2>
+<div class="card-group">
+    <div class="card">
+      <img src="{% static 'images/products&orders.png' %}" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">Products&Orders</h5>
+        <p class="card-text">1-800-806-6453</p>
+        <p>4 am - 11 pm PT</p>
+        <p>7 days a week</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="{% static 'images/products&orders.png' %}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">NRC, NTC & .SWOOSH</h5>
+        <p class="card-text">1-800-379-6453</p>
+        <p>8 am - 5 pm PT</p>
+        <p>Mon - Fri</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="{% static 'images/products&orders.png' %}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">COMPANY INFO & INQURIES</h5>
+        <p class="card-text">1-800-344-548</p>
+        <p>7 am - 4 pm PT</p>
+        <p>Mon - Fri</p>
+      </div>
+    </div>
+    <div class="card">
+        <img src="{% static 'images/message.png' %}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">COMPANY INFO & INQURIES</h5>
+          <p class="card-text">1-800-344-548</p>
+          <p>7 am - 4 pm PT</p>
+          <p>Mon - Fri</p>
+        </div>
+      </div>
+  </div>
+{% endblock %}

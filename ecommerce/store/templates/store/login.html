@@ -1,0 +1,22 @@
+{% extends 'store/_layout.html' %}
+{% block content %}
+    <h2 style="text-align: center;">Login</h2>
+    <form action="{% url 'store:login' %}" enctype="multipart/form-data", method="post">
+        {% csrf_token %}
+        <div style="text-align:center;">
+            <div class="form_field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" required>
+            </div>
+            <div class="form_field">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password"><br><br>
+            </div>
+            <div>
+                <button class="form_button" type="submit">Login</button>
+            </div>
+        </div>
+    </form>
+    <p style="text-align: center; padding: 20px;" ><b>Don't have an account?</b> 
+    <a href="{% url 'store:register' %}">Register</a></p>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'store/_layout.html' %}
+{% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container padding-bottom-3x mb-1">
+    <!-- Shopping Cart-->
+    <div class="table-responsive shopping-cart">
+        <table class="table">
+            <thead>
+                <tr>
+                    {% if item.item.dicount_price %}
+                    <th>Product Name</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Discount</th>
+                    <th class="text-center">Total</th>
+                    <th class="text-center"><a class="btn btn-sm btn-outline-danger" href="#">Clear Cart</a></th>
+                    {% else %}
+                    <th>Product Name</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Total</th>
+                    <form action="{% url 'store:remove_all_items' %}" enctype="multipart/form-data" method="POST">
+                        {% csrf_token %}
+                        <th class="text-center"><button class="btn btn-sm btn-outline-danger">Clear Cart</button></th>
+                    </form>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% if items %}
+                    {% for item in items %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'store:cart' %}"></a>
+                                    <div class="product-item">
+                                        <a class="product-thumb"><img src="{{ item.item.image.url }}" alt="{{item.image.url}}" style="width: 140px;"></a>
+                                        <div class="product-info">
+                                            <h6 class="product-title"><a>{{ item.item.title }}</a></h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <div class="count-input">
+                                    {{item.quantity}}
+                                </div>
+                            </td>
+                            {% if item.item.dicount_price %}
+                            <td class="text-center text-lg text-medium">${{ item.item.dicount_price }}</td>
+                            <td class="text-center text-lg text-medium">${{ item.quantity_price }}</td>
+                            <td class="text-center"><a data-item="{{item.id}}" data-action="remove" class="add-to-cart" href="{% url 'store:add_to_cart' %}" data-toggle="tooltip" data-original-title="Remove item"><i class="fa fa-trash"></i></a></td>
+                            {% else %}
+                            <td class="text-center text-lg text-medium">${{ item.item.price }}</td>
+                            <td class="text-center text-lg text-medium">{{ item.quantity_price }}</td>
+
+                            <td class="text-center"><a><button data-item="{{item.id}}" data-action="remove" class="add-to-cart" href="{% url 'store:add_to_cart' %}" data-toggle="tooltip" data-original-title="Remove item"><i class="fa fa-trash"></i></button></a></td>
+
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>No items in cart</td>
+                    </tr>
+                {% endif %}
+                
+            </tbody>
+        </table>
+    </div>
+    <div class="shopping-cart-footer">
+        <div class="column text-lg">In total: <span class="text-medium">${{total_price}}</span></div>
+    </div>
+    <div class="shopping-cart-footer">
+        <div class="column"><a href="{% url 'store:items_list' %}" class="btn btn-outline-secondary" href="#"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a></div>
+        <div class="column">
+            <a class="btn btn-success" href="{% url 'store:checkout' %}">Checkout</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

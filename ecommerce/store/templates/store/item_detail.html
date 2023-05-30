@@ -1,0 +1,48 @@
+{% extends 'store/_layout.html' %}
+{% block content %}
+    <form action="{% url 'store:item_detail' item.pk %}">
+        <div class="container mt-5 mb-5">
+                <div class="">
+                        <div class="images p-3">
+                            <div class="text-center p-4"> <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}"> </div>
+                            <div class="thumbnail text-center"> <img onclick="change_image(this)" src="https://i.imgur.com/Rx7uKd0.jpg" width="70"> <img onclick="change_image(this)" src="https://i.imgur.com/Dhebu4F.jpg" width="70"> </div>
+                        </div>
+                        <div>
+                            <div class="product p-4">
+                                <div style="text-align: center;">
+                                    <h5 class="text-uppercase" style="text-align: center;">{{ item.title }}</h5>
+                                    {% if item.dicount_price %}
+                                    <div style="text-align: center; padding:10px;">
+                                        <s><span>{{item.price}}$</span></s>
+                                        <div class="ml-2">
+                                            <a>New price: {{item.dicount_price}}$</a>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <a>{{item.price}}</a>
+                                    {% endif %}
+                                </div>
+                                <div style="text-align: center; padding:10px;">
+                                        <h6 class="text-uppercase">Size</h6><br>
+                                        <label class="radio"> <input type="radio" name="size" value="S"> <span>S</span></label>
+                                        <label class="radio"> <input type="radio" name="size" value="M"> <span>M</span></label>
+                                        <label class="radio"> <input type="radio" name="size" value="L" checked> <span>L</span></label>
+                                        <label class="radio"> <input type="radio" name="size" value="XL"> <span>XL</span></label>
+                                        <label class="radio"> <input type="radio" name="size" value="XXL"> <span>XXL</span></label>
+                                </div>
+                                <div style="text-align: center; padding:10px;">
+                                    <button type="submit" data-item="{{item.id}}" data-action="add" class="btn btn-danger text-uppercase mr-2 px-4">Add to cart</button><br><br>
+                                    <i class="fa fa-heart text-muted"></i>
+                                    <i class="fa fa-share-alt text-muted"></i>
+                                </div>
+                                <div style="text-align: center; padding:10px;">
+                                    <div>
+                                        <a href="{% url 'store:items_list' %}">Back</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </form>
+{% endblock %}
