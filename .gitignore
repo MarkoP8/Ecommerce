@@ -1,0 +1,10 @@
+venv
+ecommerce/images
+ecommerce/media
+store/__pycache__
+store/migrations
+store/models/__pycache__
+store/static/images
+store/views/__pycache__
+store/views/__init__.py
+store/__init__.py
