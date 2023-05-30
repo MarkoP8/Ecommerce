@@ -8,3 +8,5 @@ ecommerce/store/static/images
 ecommerce/store/views/__pycache__
 ecommerce/store/views/__init__.py
 ecommerce/store/__init__.py
+manage.py
+ecommerce.db
