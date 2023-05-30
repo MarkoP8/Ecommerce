@@ -1,10 +1,10 @@
 venv
 ecommerce/images
 ecommerce/media
-store/__pycache__
-store/migrations
-store/models/__pycache__
-store/static/images
-store/views/__pycache__
-store/views/__init__.py
-store/__init__.py
+ecommerce/store/__pycache__
+ecommerce/store/migrations
+ecommerce/store/models/__pycache__
+ecommerce/store/static/images
+ecommerce/store/views/__pycache__
+ecommerce/store/views/__init__.py
+ecommerce/store/__init__.py
