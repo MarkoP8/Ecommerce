@@ -1,5 +1,4 @@
 venv
-images
 ecommerce/media
 ecommerce/store/__pycache__
 ecommerce/store/migrations
