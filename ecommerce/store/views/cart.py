@@ -44,9 +44,9 @@ def add_to_cart(request):
         
         user = User.objects.get(name=request.user.username)
         order, create = Order.objects.get_or_create(user=user, ordered=False)
-        item = Item.objects.get(id=itemId)
         
         if action == 'add':
+            item = Item.objects.get(id=itemId)
             order_item, created = OrderItem.objects.get_or_create(order=order, item=item)
             if created:
                 order_item.quantity = 1
@@ -54,17 +54,14 @@ def add_to_cart(request):
                 order_item.quantity += 1
             order_item.save()
         
-        elif action == 'remove':
-            order_item = OrderItem.objects.get(order=order, item=item)
-            order_item.quantity -= 1
-            if order_item.quantity <= 0:
-                order_item.id.delete()
-            else:
-                order_item.save()
-        
         else:
-            # Handle other actions if necessary
-            pass
+            if action == 'remove':
+                order_item = OrderItem.objects.get(id=itemId, order=order)
+                order_item.quantity -= 1
+                if order_item.quantity <= 0:
+                    order_item.delete()
+                else:
+                    order_item.save()
         
     except json.JSONDecodeError as e:
         print('Error decoding JSON:', str(e))
@@ -75,7 +72,7 @@ def add_to_cart(request):
     except Item.DoesNotExist as e:
         print('Item matching query does not exist:', str(e))
         print('Available Item IDs:', [item.id for item in Item.objects.all()])
-        print([order_item.id for order_item in OrderItem.objects.all()])
+        print("Items in the cart:",[order_item.id for order_item in OrderItem.objects.all()])
         return JsonResponse('Item matching query does not exist', status=400, safe=False)
     
     return JsonResponse('Cart is updated...', safe=False)
