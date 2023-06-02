@@ -56,7 +56,7 @@ def add_to_cart(request):
         
         else:
             if action == 'remove':
-                order_item = OrderItem.objects.get(id=itemId, order=order)
+                order_item = OrderItem.objects.get(order=order, id=itemId)
                 order_item.quantity -= 1
                 if order_item.quantity <= 0:
                     order_item.delete()
@@ -64,15 +64,10 @@ def add_to_cart(request):
                     order_item.save()
         
     except json.JSONDecodeError as e:
-        print('Error decoding JSON:', str(e))
         return JsonResponse('Invalid JSON payload', status=400, safe=False)
     except KeyError as e:
-        print('Missing key in JSON:', str(e))
         return JsonResponse('Missing key in JSON payload', status=400, safe=False)
     except Item.DoesNotExist as e:
-        print('Item matching query does not exist:', str(e))
-        print('Available Item IDs:', [item.id for item in Item.objects.all()])
-        print("Items in the cart:",[order_item.id for order_item in OrderItem.objects.all()])
         return JsonResponse('Item matching query does not exist', status=400, safe=False)
     
     return JsonResponse('Cart is updated...', safe=False)
@@ -90,7 +85,6 @@ def remove_all_items(request):
                 request.session['success'] = "All items successfully removed from the cart."
                 return redirect('store:cart')
             except Exception as e:
-                print(str(e))
                 request.session['error'] = "Something went wrong..."
                 return redirect('store:cart')
         return redirect('store:cart')

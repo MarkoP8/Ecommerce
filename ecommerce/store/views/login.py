@@ -30,7 +30,7 @@ def login_user(request: HttpRequest):
                 login(request, user_login)
                 request.session['user'] = get_user.to_dict()
                 return redirect('store:home')
-        request.session['error'] = "Email and/or password are invalid."
+        request.session['error'] = "Username and/or password are invalid."
         return redirect('store:login')
 
 def logout_user(request):

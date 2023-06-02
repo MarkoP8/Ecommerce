@@ -47,7 +47,7 @@
                             {% if item.item.dicount_price %}
                             <td class="text-center text-lg text-medium">${{ item.item.dicount_price }}</td>
                             <td class="text-center text-lg text-medium">${{ item.quantity_price }}</td>
-                            <td class="text-center"><a data-item="{{item.id}}" data-action="remove" class="add-to-cart" href="{% url 'store:add_to_cart' %}" data-toggle="tooltip" data-original-title="Remove item"><i class="fa fa-trash"></i></a></td>
+                            <td class="text-center"><a><button data-item="{{item.id}}" data-action="remove" class="add-to-cart" href="{% url 'store:add_to_cart' %}" data-toggle="tooltip" data-original-title="Remove item"><i class="fa fa-trash"></i></button></a></td>
                             {% else %}
                             <td class="text-center text-lg text-medium">${{ item.item.price }}</td>
                             <td class="text-center text-lg text-medium">{{ item.quantity_price }}</td>
