@@ -15,25 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Moj CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script type="text/javascript">
-        let user = '{{request.user}}'
-        function getToken(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-        const csrftoken = getToken('csrftoken');
-    </script>
+    
 </head>
 <body>
     <div class="wrap_1024">
@@ -67,12 +49,12 @@
                 <a href="{% url 'store:logout' %}">Logout</a>
                 {% endif %}
                 <a href="{% url 'store:cart' %}"><img id="cart_img" src="{% static 'images/cart.png' %}"></a>
-                <a id="cart_total" style="height:25px; width:25px">{{count_items}}</a>
+                <a id="cart_total" style="height:25px; width:25px"></a>
             </div>
         </header>
         <nav id="main_nav">
             <a href="{% url 'store:home' %}">Home</a>
-            <a href="{% url 'store:items_list' %}">Store</a>
+            <a href="{% url 'store:items_list' %}">Shop</a>
             <a href="{% url 'store:cart' %}">Cart</a>
             <a href="#">Places</a>
             <a href="{% url 'store:contact' %}">Contact</a>
@@ -83,11 +65,86 @@
             </section>
         </main>
         <footer>
+            <div class="footer_container" style="display: flex; justify-content: space-around">
+                <div class="footer-column">
+                    <h2>Help</h2>
+                    <div class="footer-topic"><a href="#">How to use our website</a></div>
+                    <div class="footer-topic"><a href="{% url 'store:contact' %}">FAQs (Frequently Asked Questions)</a></div>
+                    <div class="footer-topic"><a href="#">Customer support information</a></div>
+                </div>
+                <div class="footer-column">
+                    <h2>Company</h2>
+                    <div class="footer-topic"><a href="{% url 'store:about' %}">About us</a></div>
+                    <div class="footer-topic"><a href="#">B2B / Electronic business between businesses</a></div>
+                    <div class="footer-topic"><a href="#">Cookies</a></div>
+                    <div class="footer-topic"><a href="#">Terms of use</a></div>
+                    <div class="footer-topic"><a href="#">Mission and values</a></div>
+                </div>
+                <div class="footer-column">
+                    <h2>Contact Us</h2>
+                    <div class="footer-topic"><a href="{% url 'store:contact' %}">Contact us</a></div>
+                    <div class="footer-topic"><a href="#">Customer support hours</a></div>
+                </div>
+            </div><br>
             <p>&copy; Online store. All material used for education purposes.</p>
         </footer>
     </div>
+    <script type="text/javascript">
+        let user = '{{request.user}}'
+        let user_id = '{{request.user.id}}'
+        function getToken(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getToken('csrftoken');
+
+        function updateNumberOfProductsInCart(){
+
+            // fetch dobaviti broj proizvoda    user/3/cart
+        
+            // getelementbyid nadjemo taj kruzic taj broj iz jsona upisemo tamo
+            
+            fetch("/users/cart/", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                }
+            })
+            .then((response) =>{
+                return response.json()
+            })
+            .then((data) => {
+                console.log('Broj proizvoda:', data);
+                // naci taj kruzic i taj podatak data.num_products
+                
+                console.log('Success message received:', data.success);
+                    // Display success message to the user (you can customize this part as needed)
+                document.getElementById("cart_total").innerHTML = data.num_products;
+                    //alert(data.success);
+
+            
+            })
+            .catch((error) => {
+                console.error('Error occurred:', error);
+            });
+        }
+        updateNumberOfProductsInCart();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 </body>
 </html>

@@ -1,48 +1,72 @@
 {% extends 'store/_layout.html' %}
 {% block content %}
-    <form action="{% url 'store:item_detail' item.pk %}">
-        <div class="container mt-5 mb-5">
-                <div class="">
-                        <div class="images p-3">
-                            <div class="text-center p-4"> <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}"> </div>
-                            <div class="thumbnail text-center"> <img onclick="change_image(this)" src="https://i.imgur.com/Rx7uKd0.jpg" width="70"> <img onclick="change_image(this)" src="https://i.imgur.com/Dhebu4F.jpg" width="70"> </div>
+<form action="{% url 'store:item_detail' item.pk %}">
+    <div class="container mt-5 mb-5">
+        <div class="">
+            <div class="images p-3">
+                <div class="text-center p-4">
+                    {% if item.images.exists %}
+                        <img id="mainImage" src="{{ item.images.first.image.url }}" class="card-img-top" alt="{{ item.title }}" data-original-src="{{ item.images.first.image.url }}">
+                    {% else %}
+                        <!-- Provide a placeholder image or a default image if no images are available -->
+                        <img id="mainImage" src="{{ image.image.url }}" class="card-img-top" alt="Placeholder Image">
+                    {% endif %}
+                </div>
+                <div class="thumbnail text-center">
+                    {% for image in item.images.all %}
+                    <img onclick="changeImage(this)" src="{{ image.image.url }}" width="70">
+                    {% endfor %}
+                </div>
+            </div>
+                <div>
+                    <div class="product p-4">
+                        <div style="text-align: center;">
+                            <h5 class="text-uppercase" style="text-align: center;">{{ item.title }}</h5>
+                            {% if item.dicount_price %}
+                            <div style="text-align: center; padding:10px;">
+                                <s><span>${{item.price}}</span></s>
+                                <div class="ml-2">
+                                    <a><b>New price: ${{item.dicount_price}}</b></a>
+                                </div>
+                            </div>
+                            {% else %}
+                            <a>${{item.price}}</a>
+                            {% endif %}
+                        </div><br>
+                        <div style="text-align: center; padding:10px;">
+                            <h6 class="text-uppercase">Available sizes</h6><br>
+                            {% for size in item.sizes.all %}
+                            <label class="radio">
+                                <input type="radio" name="size" value="{{ size.id }}" checked>
+                                <span>{{ size.size }}</span>
+                            </label>
+                            {% endfor %}
                         </div>
-                        <div>
-                            <div class="product p-4">
-                                <div style="text-align: center;">
-                                    <h5 class="text-uppercase" style="text-align: center;">{{ item.title }}</h5>
-                                    {% if item.dicount_price %}
-                                    <div style="text-align: center; padding:10px;">
-                                        <s><span>{{item.price}}$</span></s>
-                                        <div class="ml-2">
-                                            <a>New price: {{item.dicount_price}}$</a>
-                                        </div>
-                                    </div>
-                                    {% else %}
-                                    <a>{{item.price}}</a>
-                                    {% endif %}
-                                </div>
-                                <div style="text-align: center; padding:10px;">
-                                        <h6 class="text-uppercase">Size</h6><br>
-                                        <label class="radio"> <input type="radio" name="size" value="S"> <span>S</span></label>
-                                        <label class="radio"> <input type="radio" name="size" value="M"> <span>M</span></label>
-                                        <label class="radio"> <input type="radio" name="size" value="L" checked> <span>L</span></label>
-                                        <label class="radio"> <input type="radio" name="size" value="XL"> <span>XL</span></label>
-                                        <label class="radio"> <input type="radio" name="size" value="XXL"> <span>XXL</span></label>
-                                </div>
-                                <div style="text-align: center; padding:10px;">
-                                    <button type="submit" data-item="{{item.id}}" data-action="add" class="btn btn-danger text-uppercase mr-2 px-4">Add to cart</button><br><br>
-                                    <i class="fa fa-heart text-muted"></i>
-                                    <i class="fa fa-share-alt text-muted"></i>
-                                </div>
-                                <div style="text-align: center; padding:10px;">
-                                    <div>
-                                        <a href="{% url 'store:items_list' %}">Back</a>
-                                    </div>
-                                </div>
+                        <div style="text-align: center; padding:10px;">
+                            <p>SHIPPING TIME (WORKING DAYS): <br>7-14 days</p>
+                            <p>You can return the product up to 60 days from the day of collection.</p>
+                        </div>
+                        <div style="text-align: center; padding:10px;">
+                            <button type="submit" data-item="{{ item.id }}" data-action="add" class="btn btn-danger btn-block add-to-cart">Add to Cart</button><br><br>
+                            <i class="fa fa-heart text-muted"></i>
+                            <i class="fa fa-share-alt text-muted"></i>
+                        </div>
+                        <div style="text-align: center; padding:10px;">
+                            <div>
+                                <a href="{% url 'store:items_list' %}">Back</a>
                             </div>
                         </div>
                     </div>
-                </div>
-    </form>
+            </div>
+        </div>
+    </div>
+</form>
+    <script>
+        function changeImage(thumbnail) {
+            var mainImage = thumbnail.closest('.images').querySelector('.card-img-top');
+            var tempSrc = mainImage.src;
+            mainImage.src = thumbnail.src;
+            thumbnail.src = tempSrc;
+        }
+    </script>
 {% endblock %}

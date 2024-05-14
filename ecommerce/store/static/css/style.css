@@ -27,6 +27,16 @@ footer {
     text-align: center;
 }
 
+.footer-topic a {
+    color: inherit; /* Use the default text color */
+    text-decoration: none; /* Remove underline */
+  }
+  
+  .footer-topic a:hover {
+    color: rgb(120, 121, 118); /* Change text color on hover */
+    text-decoration: underline; /* Add underline on hover */
+  }
+
 main {
     flex-grow: 1;
     display: flex;
@@ -197,7 +207,6 @@ main {
     margin-right: 10px;
     margin-left: 10px;
     padding: 5px;
-    border-right: 1px dotted gray;
 }
 
 #main_nav {

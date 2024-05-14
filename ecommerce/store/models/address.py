@@ -19,4 +19,7 @@ class Address(models.Model):
     cvv = models.IntegerField(null=True)
     
     def __str__(self):
-        return f"{self.user} - {self.country} ({self.city})"
+        if self.user:
+            return f"{self.user.email} - {self.country} ({self.city})"
+        else:
+            return f"No user associated - {self.country} ({self.city})"

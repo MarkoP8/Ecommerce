@@ -1,4 +1,173 @@
 {% extends 'store/_layout.html' %}
 {% block content %}
-<h1>Homepage</h1>
+{% load static %}
+<style>
+.promotion-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.promotion {
+  flex-basis: 30%;
+  text-align: center;
+  border-style: groove;
+  padding: 5px;
+  box-sizing: border-box;
+}
+.promotion p {
+  margin: 0;
+}
+.promotion img {
+  margin-right: 15px; /* Add some space between the image and text */
+}
+.social-icons {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+/* Styling for individual social media icons */
+.social-icons a {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 24px;
+  color: blue; /* Default color */
+  transition: color 0.3s; /* Smooth transition for color change */
+}
+
+/* Hover effect for social media icons */
+.social-icons a:hover {
+  color: red; /* Change color on hover */
+}
+.logo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center; /* Center the logos horizontally */
+}
+
+.logo-list li {
+  display: inline-block;
+  margin: 0 10px; /* Adjust the spacing between logos */
+}
+</style>
+<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img id="banner1" src="{% static 'images/ban1.jpg' %}" class="d-block w-100" alt="ban1" height="500">
+        <div class="carousel-caption">
+            <h3>Los Angeles</h3>
+            <p>LA is always so much fun!</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img id="banner2" src="{% static 'images/ban2.png' %}" class="d-block w-100" alt="ban2" height="500">
+      </div>
+      <div class="carousel-item">
+        <img id="banner3" src="{% static 'images/jacket_ban.jpg' %}" class="d-block w-100" alt="banner3" height="500">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+</div><br>
+<h3 style="text-align: center;">Top brands</h3>
+<div class="logo-container">
+  <ul class="logo-list">
+    <li><img src="{% static 'images/nike.jpg' %}" alt="Nike" style="height: 170px;"></li>
+    <li><img src="{% static 'images/zara.png' %}" alt="Zara" style="height: 150px;"></li>
+    <li><img src="{% static 'images/new_yorker.png' %}" alt="New Yorker" style="height: 100px; width: 400px;"></li>
+    <li><img src="{% static 'images/dior.png' %}" alt="Dior" style="height: 90px; width: 200px;"></li>
+    <li><img src="{% static 'images/lacoste.jpg' %}" alt="Lacoste" style="height: 120px;"></li>
+  </ul>
+</div><br><br>
+
+<div class="card-group" style="justify-content: space-between; background-color: #d1d0cd;">
+  <div class="card" style="height: 250px">
+    <img src="{% static 'images/leui.jpg' %}" class="card-img-top" alt="leui">
+    <div class="card-body">
+      <h5 class="card-title">New Items</h5>
+    </div>
+  </div>
+  <div class="card" style="height: 250px">
+    <img src="{% static 'images/sweather.jpeg' %}" class="card-img-top" alt="Sweather">
+    <div class="card-body">
+      <h5 class="card-title">Hot Items</h5>
+    </div>
+  </div>
+  <div class="card" style="height: 250px">
+    <img src="{% static 'images/LA.jpg' %}" class="card-img-top" alt="LA">
+    <div class="card-body" sty>
+      <h5 class="card-title">Discounted Items</h5>
+    </div>
+  </div>
+</div><br>
+<div class="promotion-container" style="background-color: #a8a7a5;">
+  <div class="promotion">
+    <p><img id="discount_price" src="{% static 'images/discount.jpg' %}" style="width: 35px;"> discounts and promotions every day</p>
+  </div>
+  <div class="promotion">
+    <p><img src="{% static 'images/return_package.jpg' %}" style="width: 45px;">Return of products up to 30 days</p>
+  </div>
+  <div class="promotion">
+    <p><img id="cart_img" src="{% static 'images/truck_free.png' %}" style="width: 35px;">Free delivery <br> over $750</p>
+  </div>
+  <div class="promotion">
+    <p><img src="{% static 'images/best_q.jpg' %}" style="width: 45px;">Guarantee quality</p>
+  </div>
+  <div class="promotion">
+    <p><img src="{% static 'images/secure_payments.jpg' %}" style="width: 45px;">Security payment With credit and debit cards</p>
+  </div>
+</div><br>
+
+<h3>Best Products</h3>
+<div class="card-group">
+  <div class="card text-black">
+    <img src="{% static '../media/store/static/images/black_hoodie_aKY6YpV.jpg' %}" class="card-img-top" alt="...">
+    <div class="card-body" style="background-color: grey;">
+      <h5 class="card-title">Black Hoodie</h5>
+      <p class="card-text">This is a comfortable black hoodie made from high-quality cotton fabric. It features a stylish design with a front pouch pocket and adjustable drawstrings.</p>
+    </div>
+    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+  </div>
+  <div class="card text-black">
+    <img src="{% static '../media/store/static/images/green_tap.png' %}" class="card-img-top" alt="...">
+    <div class="card-body" style="background-color: grey;">
+      <h5 class="card-title">Green Hoodie</h5>
+      <p class="card-text">Stay stylish and cozy with our green hoodie, crafted from soft and breathable cotton blend fabric. Perfect for casual outings or lounging at home.</p>
+    </div>
+    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+  </div>
+  <div class="card text-black">
+    <img src="{% static '../media/store/static/images/polo_blue.jpg' %}" class="card-img-top" alt="...">
+    <div class="card-body" style="background-color: grey;">
+      <h5 class="card-title">Polo blue</h5>
+      <p class="card-text">Elevate your wardrobe with our classic polo shirt in vibrant blue. Made from premium cotton, this shirt offers comfort and style for any occasion.</p>
+    </div>
+    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+  </div>
+  <div class="card text-black">
+    <img src="{% static '../media/store/static/images/polo_white.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body" style="background-color: grey;">
+      <h5 class="card-title">Polo white</h5>
+      <p class="card-text">Look effortlessly chic in our timeless white polo shirt, featuring a modern slim-fit design and breathable fabric. Ideal for both casual and smart-casual looks.</p>
+    </div>
+    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+  </div>
+</div>
+<div class="jumbotron text-center">
+  <a href="{% url 'store:items_list' %}" class="btn btn-primary btn-lg">Shop Now</a>
+</div>
+<div class="social-icons">
+  <a href="#" class="fa fa-facebook"></a>
+  <a href="#" class="fa fa-twitter"></a>
+  <a href="#" class="fa fa-instagram"></a>
+  <a href="#" class="fa fa-linkedin"></a>
+</div>
 {% endblock content %}

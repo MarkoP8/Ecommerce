@@ -1,35 +1,58 @@
-{% extends 'store/_layout.html'%}
+{% extends 'store/_layout.html' %}
 {% load static %}
+
 {% block content %}
-<h2>Store</h2>
+    <h2>Store</h2>
+    {% if items %}
+        <form action="{% url 'store:filter_list' %}" method="GET">
+            <label for="category">Category:</label>
+            <select name="category" id="category">
+                <option value="" {% if not selected_category %}selected{% endif %}>All</option>
+                <option value="Hoodies" {% if selected_category == "Hoodies" %}selected{% endif %}>Hoodies</option>
+                <option value="T-Shirt" {% if selected_category == "T-Shirt" %}selected{% endif %}>T-shirts</option>
+                <option value="Shorts" {% if selected_category == "Shorts" %}selected{% endif %}>Shorts</option>
+            </select><br>
+            <label for="min_price">Min Price:</label>
+            <input type="number" name="min_price" id="min_price" value="{{ min_price }}"><br>
+            <label for="max_price">Max Price:</label>
+            <input type="number" name="max_price" id="max_price" value="{{ max_price }}"><br>
+            <button type="submit">Filter</button>
+        </form>
 
-    <div class="card-group">
-        {% for item in items %}
-        <div class="card">
-            <a href="{% url 'store:item_detail' item_id=item.id %}" style="text-decoration: none;">
-                <div>
-                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+        <div class="card-group">
+            {% for item in items %}
+                <div class="card">
+                    <a href="{% url 'store:item_detail' item_id=item.id %}" style="text-decoration: none;">
+                        <div>
+                            {% if item.images.exists %}
+                                <img src="{{ item.images.first.image.url }}" class="card-img-top" alt="{{ item.title }}">
+                            {% else %}
+                                <!-- Provide a placeholder image or a default image if no images are available -->
+                                <img src="{% static 'image.image.jpg' %}" class="card-img-top" alt="Placeholder Image">
+                            {% endif %}
+                        </div>
+                        <div class="card-body" style="text-align: center;">
+                            <h5 class="card-title text-dark">{{ item.title }}</h5>
+                            {% if item.dicount_price %}
+                                <h5 style="color: black;"><s>${{ item.price }}</s></h5>
+                                <h5 class="card-text text-danger">New Price: ${{ item.dicount_price }}</h5>
+                            {% else %}
+                                <h5 style="color: black;">${{ item.price }}</h5>
+                            {% endif %}
+                        </div>
+                    </a>
+                    <div class="card-button" style="text-align: center;">
+                        <button data-item="{{ item.id }}" data-action="add" class="btn btn-dark btn-block add-to-cart">Add to Cart</button>
+                    </div>
                 </div>
-                <div class="card-body" style="text-align: center;">
-                    <h5 class="card-title text-dark">{{ item.title }}</h5>
-                    {% if item.dicount_price %}
-                        <h5 style="color: black;"><s>${{ item.price }}</s></h5>
-                        <h5 class="card-text text-danger">New Price: ${{ item.dicount_price }}</h5>
-                    {% else %}
-                        <h5 style="color: black;">{{ item.price }}</h5>
-                    {% endif %}
-                </div>
-            </a>
-            <div class="card-button" style="text-align: center;">
-                <a><button data-item="{{item.id}}" data-action="add" class="btn btn-dark btn-block add-to-cart">Add to Cart</button></a>
-            </div>
+                {% if forloop.counter|divisibleby:4 and not forloop.last %}
+                    </div>
+                    <div class="card-group">
+                {% endif %}
+            {% endfor %}
         </div>
-        {% if forloop.counter|divisibleby:4 and not forloop.last %}
-            </div>
-            <div class="card-group">
-        {% endif %} 
-        {% endfor %}
-    </div>
-  
 
+    {% else %}
+        <p>No products found with the applied filters.</p>
+    {% endif %}
 {% endblock %}

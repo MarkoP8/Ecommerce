@@ -1,5 +1,5 @@
 {% extends "store/_layout.html" %}
 {% block content %}
-<h4>Dear {{request.user}}</h4>
-<p>Thank you for buying products on our page. We have saved your data and will send you information about the order by e-mail, so you can track it.</p>
+<h4>Respected {{request.user.name}}</h4>
+<p>Thank you for buying products on our page. We have saved your data and will send you information about the order by e-mail, so you can see it.</p>
 {% endblock %}

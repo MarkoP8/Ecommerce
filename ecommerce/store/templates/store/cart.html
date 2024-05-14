@@ -1,9 +1,13 @@
 {% extends 'store/_layout.html' %}
 {% block content %}
+{% load static %}
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container padding-bottom-3x mb-1">
     <!-- Shopping Cart-->
     <div class="table-responsive shopping-cart">
+        {% if success %}
+                <div class="success">{{ success }}</div>
+        {% endif %}
         <table class="table">
             <thead>
                 <tr>
@@ -32,31 +36,36 @@
                             <td>
                                 <a href="{% url 'store:cart' %}"></a>
                                     <div class="product-item">
-                                        <a class="product-thumb"><img src="{{ item.item.image.url }}" alt="{{item.image.url}}" style="width: 140px;"></a>
+                                        {% if item.item.images.exists %}
+                                        <img src="{{ item.item.images.first.image.url }}" alt="{{ item.product.title }}" style="max-width: 100px;">
+                                        {% else %}
+                                        <img src="{{ image.image.url }}" alt="Placeholder Image" style="max-width: 100px;">
+                                        {% endif %}
                                         <div class="product-info">
-                                            <h6 class="product-title"><a>{{ item.item.title }}</a></h6>
+                                            <h6 class="product-title"><a>{{ item.item.title }} <p>Size: {{item.selected_size}}</p></a></h6>
                                         </div>
                                     </div>
                                 </a>
                             </td>
                             <td class="text-center">
-                                <div class="count-input">
+                                <div id="quantity" class="count-input">
                                     {{item.quantity}}
                                 </div>
                             </td>
                             {% if item.item.dicount_price %}
                             <td class="text-center text-lg text-medium">${{ item.item.dicount_price }}</td>
                             <td class="text-center text-lg text-medium">${{ item.quantity_price }}</td>
-                            <td class="text-center"><a><button data-item="{{item.id}}" data-action="remove" class="add-to-cart" href="{% url 'store:add_to_cart' %}" data-toggle="tooltip" data-original-title="Remove item"><i class="fa fa-trash"></i></button></a></td>
+                            <td class="text-center"><a><button data-item="{{item.id}}" data-action="remove" class="add-to-cart" href="{% url 'store:add_to_cart' %}" id="button_id" data-toggle="tooltip" data-original-title="Remove item"><i class="fa fa-trash"></i></button></a></td>
                             {% else %}
                             <td class="text-center text-lg text-medium">${{ item.item.price }}</td>
-                            <td class="text-center text-lg text-medium">{{ item.quantity_price }}</td>
-
-                            <td class="text-center"><a><button data-item="{{item.id}}" data-action="remove" class="add-to-cart" href="{% url 'store:add_to_cart' %}" data-toggle="tooltip" data-original-title="Remove item"><i class="fa fa-trash"></i></button></a></td>
+                            <td class="text-center text-lg text-medium">${{ item.quantity_price }}</td>
+                            
+                            <td class="text-center"><a><button data-item="{{item.id}}" data-action="remove" class="add-to-cart" href="{% url 'store:add_to_cart' %}" id="button_id" data-toggle="tooltip" data-original-title="Remove item"><i class="fa fa-trash"></i></button></a></td>
 
                             {% endif %}
                         </tr>
                     {% endfor %}
+                    
                 {% else %}
                     <tr>
                         <td>No items in cart</td>
@@ -76,4 +85,13 @@
         </div>
     </div>
 </div>
+<script>
+
+    document.getElementById("button_id").addEventListener('click', function(){
+        let element = document.getElementById('quantity');
+        element.innerHTML = parseInt(element.innerHTML) - 1;
+        //location.reload();
+    })
+
+</script>
 {% endblock %}
